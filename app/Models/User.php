@@ -12,15 +12,53 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    public function locations(){
+        return $this->hasMany(Location::class);
+    }
+
+    public function paiements(){
+        return $this->hasMany(Paiement::class);
+    }
+
+    public function permissions(){
+        return $this->belongsToMany(Permission::class, "user_permissions", "user_id", "permission_id");
+    }
+
+    public function roles(){
+        return $this->belongsToMany(Role::class, "user_roles", "user_id", "role_id");
+    }
+
+    public function hasRole($role){
+        return $this->roles()->where("role", $role)->first() !== null;
+    }
+
+    public function hasAnyRoles($roles){
+        return $this->roles()->whereIn("role", $roles)->first() !== null;
+    }
+
+    public function getAllRoleNamesAttribute(){
+        return $this->roles->implode("role", " | ");
+    }
+
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
+
+    //protected $fillable = [];
+
     protected $fillable = [
-        'name',
+        'nom',
+        'prenom',
+        'sexe',
+        'telephone1',
+        'pieceIdentite',
+        'numeroPieceIdentite',
         'email',
         'password',
+        'photo',
     ];
 
     /**

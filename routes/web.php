@@ -1,6 +1,18 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
+use App\Models\Article;
+use App\Models\Client;
+use App\Models\Duree_location;
+use App\Models\Location;
+use App\Models\Paiement;
+use App\Models\Propriete_article;
+use App\Models\Statut_location;
+use App\Models\Tarification;
+use App\Models\Type_article;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Livewire\Utilisateurs;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +25,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Auth::routes();
+
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+//Le route des groupes relative à l'administrateur
+Route::group([
+    "middlewere" => ["auth", "auth.admin"],
+    "as" => "admin.",
+], function(){
+    Route::group([
+        "prefix" => "habilitations",
+        "as" => "habilitations."
+    ], function(){
+        Route::get("/utilisateurs", Utilisateurs::class)->name("users.index");
+
+        //admin.habilitations.users.index
+    });
 });
+
+//Route::get('/habilitations/utilisateurs', [App\Http\Controllers\UserController::class, 'index'])
+//->name('utilisateurs')
+//->middleware("auth.admin");
