@@ -1,7 +1,7 @@
 <div class="row p-4 pt-5">
         <div class="col-12">
             <div class="card">
-                <div class="card-header bg-primary align-items-center">
+                <div class="card-header bg-gradient-primary align-items-center">
                     <h3 class="card-title flex-grow-1"><i class="fas fa-users fa-2x"></i> Liste des utilisateurs</h3>
                     <div class="card-tools d-flex align-items-center">
                         <a class="btn btn-link text-white mr-4 d-block" wire:click.prevent = "goToAddUser()"><i class="fas fa-user-plus"></i> Nouvel utilisateur</a>
@@ -31,7 +31,7 @@
                             @foreach($users as $user)
                             <tr>
                                 <td>
-                                    @if($user->sexe == 0)
+                                    @if($user->sexe == "H")
                                         <img src="{{ asset('images/man.png') }}" width="24"/>
                                     @else
                                         <img src="{{ asset('images/woman.png') }}" width="24"/>

@@ -115,11 +115,57 @@
                     </div>
                     <div class="col-md-12 pt-4">
                         <div class="card card-primary">
-                            <div class="card-header">
-                                 <h3 class="card-title"><i class="fas fa-fingerprint fa-2px"></i> Roles & Permissions</h3>
+                            <div class="card-header d-flex align-items-center">
+                                 <h3 class="card-title flex-grow-1"><i class="fas fa-fingerprint fa-2px"></i> Roles & Permissions</h3>
+                                 <button class="btn bg-gradient-success" wire:click="updateRoleAndPermissions"><i class="fas fa-check"></i> Appliquer les modifications</button>
                             </div>
                             <div class="card-body">
+                                <div class="accordion">
+                                    
+                                    @foreach ($rolePermissions["roles"] as $role)
+                                    
+                                    <div class="card">
+                                        <div class="card-header d-flex justify-content-between">
+                                            <h4 class="card-title flex-grow-1">
+                                                <a data-parent="#accordion" href="#" aria-expanded="true">
+                                                    {{$role["role_role"]}}
+                                                </a>
+                                            </h4>
+                                            <div class="custom-switch custom-switch-off-danger custom-switch-on-success">
+                                                <input type="checkbox" class="custom-control-input" wire:model.lasy="rolePermissions.roles.{{$loop->index}}.active" @if($role["active"]) checked @endif id="customSwitch{{$role['role_id']}}">
+                                                <label class="custom-control-label" for="customSwitch{{$role['role_id']}}"> {{ $role["active"]? "Active" : "Desactivé" }} </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                     @endforeach
 
+                                     {{--@json($rolePermissions["roles"])--}}
+
+                                    <div class="">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <th>Permissions</th>
+                                                <th></th>
+                                            </thead>
+                                            <tbody>
+                                                
+                                                @foreach ($rolePermissions["permissions"] as $permission)
+
+                                                <tr>
+                                                    <td>{{$permission["permission_nom"]}}</td>
+                                                    <td>
+                                                        <div class="custom-switch custom-switch-off-danger custom-switch-on-success">
+                                                            <input type="checkbox" class="custom-control-input" @if($permission["active"]) checked @endif wire:model.lasy="rolePermissions.permissions.{{$loop->index}}.active" id="customSwitchPermission{{$permission["permission_id"]}}">
+                                                            <label class="custom-control-label" for="customSwitchPermission{{$permission["permission_id"]}}"> {{ $permission["active"]? "Active" : "Desactivé" }} </label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
 
                         </div>
