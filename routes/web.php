@@ -13,6 +13,7 @@ use App\Models\Tarification;
 use App\Models\Type_article;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Livewire\Utilisateurs;
+use App\Http\livewire\TypeArticleComp;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,8 @@ Route::group([
     "middlewere" => ["auth", "auth.admin"],
     "as" => "admin.",
 ], function(){
+
+    // Gestion des habilitations
     Route::group([
         "prefix" => "habilitations",
         "as" => "habilitations."
@@ -41,6 +44,15 @@ Route::group([
         Route::get("/utilisateurs", Utilisateurs::class)->name("users.index");
 
         //admin.habilitations.users.index
+    });
+
+    //Gestion d'article
+    Route::group([
+        "prefix" => "gestarticles",
+        "as" => "gestarticles."
+    ], function(){
+        Route::get("/gestarticles", TypeArticleComp::class)->name("typearticles");
+
     });
 });
 
